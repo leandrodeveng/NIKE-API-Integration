@@ -14,3 +14,8 @@ test('Should return wrong cpf length exception', () => {
     const invalidCpf = '4644.972.498-85'
     expect(() => new Cpf(invalidCpf)).toThrow(new Error("Invalid CPF length"));
 });
+
+test('Should return wrong digits exception', () => {
+    const invalidCpf = '123.972.498-85'
+    expect(() => new Cpf(invalidCpf)).toThrow(new Error("Invalid check digits"));
+});

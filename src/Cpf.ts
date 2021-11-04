@@ -10,8 +10,9 @@ export class Cpf {
     constructor(cpf: string) {
         const cpfDigits = this.extractDigits(cpf);
         if(this.isInvalidLength(cpfDigits)) throw new Error('Invalid CPF length');
-        const firstDigit = this.calculateDigit(cpf, FACTOR_FIRST_DIGIT, MAX_DIGITS_FIRST);
-        const secondDigit = this.calculateDigit(cpf, FACTOR_SECOND_DIGIT, MAX_DIGITS_SECOND);
+        const firstDigit = this.calculateDigit(cpfDigits, FACTOR_FIRST_DIGIT, MAX_DIGITS_FIRST);
+        const secondDigit = this.calculateDigit(cpfDigits, FACTOR_SECOND_DIGIT, MAX_DIGITS_SECOND);
+        if(!this.isCheckDigitValid(cpfDigits, firstDigit, secondDigit)) throw new Error('Invalid check digits');
         this.cpfValue = cpf
     }
 
@@ -34,5 +35,9 @@ export class Cpf {
             total += digit * factor--;
         }
         return (total % 11 < 2) ? 0 : (11 - total % 11);
+    }
+
+    private isCheckDigitValid(cpf: string, firstDigit: number, secondDigit: number) {
+        return cpf.slice(9) === `${firstDigit}${secondDigit}`
     }
 }
