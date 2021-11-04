@@ -1,7 +1,8 @@
 import { ClientOrdersService } from './clientOrders.service';
+import { Order } from './Order';
 
 export class ClientOrdersMemoryService implements ClientOrdersService {
-  orders: any;
+  orders: { OrderCount: number; Orders: Order[] };
 
   constructor() {
     this.orders = {

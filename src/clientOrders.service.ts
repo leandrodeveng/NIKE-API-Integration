@@ -1,3 +1,5 @@
+import { Order } from './Order';
+
 export abstract class ClientOrdersService {
-  abstract getOrders(): Promise<any[]>;
+  abstract getOrders(): Promise<Order[]>;
 }
