@@ -1,3 +1,3 @@
 export abstract class ClientOrdersService {
-    abstract getOrders(): Promise<any[]>;
+  abstract getOrders(): Promise<any[]>;
 }
