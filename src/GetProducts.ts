@@ -1,4 +1,5 @@
 import { ClientOrdersService } from './clientOrders.service';
+import { Product } from './Product';
 import { ProductsOutputData } from './ProductsOutputData';
 
 export class GetProducts {
@@ -9,10 +10,21 @@ export class GetProducts {
   }
 
   async execute(): Promise<ProductsOutputData> {
-    const clientOrdersData = this.clientOrdersService.getOrders();
+    const clientOrdersData = await this.clientOrdersService.getOrders();
+    const sortedOrders = clientOrdersData.sort((a, b) => parseInt(a.OrderCode.match(/(\d+)/)[0]) - parseInt(b.OrderCode.match(/(\d+)/)[0]));
+    const productsHash: { [key: string]: Product } = {};
+    for(const order of sortedOrders) {
+      for(const product of order.Products) {
+        productsHash[product.ProductCode] ? 
+          productsHash[product.ProductCode].Quantity ++ :
+          productsHash[product.ProductCode] = product
+
+        if(Object.keys(productsHash).length === 5) break 
+      }
+    }
     return new ProductsOutputData({
       count: 3,
-      products: ['BV4122-010', 'CU1321-010', 'CW9300-808'],
+      products: Object.values(productsHash),
     });
   }
 }
