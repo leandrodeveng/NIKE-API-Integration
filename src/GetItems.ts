@@ -1,4 +1,5 @@
 import { ClientOrdersService } from "./clientOrders.service";
+import { ProductsOutputData } from "./ProductsOutputData";
 
 export class GetItems {
     private clientOrdersService: ClientOrdersService;
@@ -7,11 +8,11 @@ export class GetItems {
         this.clientOrdersService = clientOrdersService;
     }
 
-    async execute() {
+    async execute(): Promise<ProductsOutputData> {
         const clientOrdersData = this.clientOrdersService.getOrders();
-        return {
-            countItems: 3,
-            items: ["BV4122-010", "CU1321-010", "CW9300-808"]
-        }
+        return new ProductsOutputData({
+            count: 3,
+            products: ["BV4122-010", "CU1321-010", "CW9300-808"]
+        })
     }
 }
