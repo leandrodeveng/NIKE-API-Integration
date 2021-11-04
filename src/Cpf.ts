@@ -10,6 +10,7 @@ export class Cpf {
     constructor(cpf: string) {
         const cpfDigits = this.extractDigits(cpf);
         if(this.isInvalidLength(cpfDigits)) throw new Error('Invalid CPF length');
+        if(this.isBlocked(cpfDigits)) throw new Error('Invalid CPF digits');
         const firstDigit = this.calculateDigit(cpfDigits, FACTOR_FIRST_DIGIT, MAX_DIGITS_FIRST);
         const secondDigit = this.calculateDigit(cpfDigits, FACTOR_SECOND_DIGIT, MAX_DIGITS_SECOND);
         if(!this.isCheckDigitValid(cpfDigits, firstDigit, secondDigit)) throw new Error('Invalid check digits');
@@ -26,6 +27,11 @@ export class Cpf {
 
     private isInvalidLength(cpf: string) {
         return cpf.length !== CPF_VALID_LENGTH;
+    }
+
+    private isBlocked(cpf: string) {
+        const [digit1] = cpf;
+        return cpf.split("").every(digit => digit === digit1);
     }
 
     private calculateDigit(cpf: string, factor: number, max: number) {
