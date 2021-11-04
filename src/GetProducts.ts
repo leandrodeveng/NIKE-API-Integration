@@ -1,7 +1,7 @@
 import { ClientOrdersService } from './clientOrders.service';
 import { ProductsOutputData } from './ProductsOutputData';
 
-export class GetItems {
+export class GetProducts {
   private clientOrdersService: ClientOrdersService;
 
   constructor(clientOrdersService: ClientOrdersService) {
