@@ -1,9 +1,16 @@
+import { ClientOrdersHttpService } from './clientOrdersHttp.service';
 import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
+import { ClientOrderController } from './clientOrders.controller';
+import { ClientOrdersService } from './clientOrders.service';
 
 @Module({
   imports: [HttpModule],
-  controllers: [],
-  providers: [],
+  controllers: [ClientOrderController],
+  providers: [
+    {
+      provide: ClientOrdersService,
+      useClass: ClientOrdersHttpService
+    }],
 })
 export class AppModule {}
