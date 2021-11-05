@@ -11,7 +11,7 @@ export class GetProducts {
 
   async execute(): Promise<ProductsOutputData> {
     const clientOrdersData = await this.clientOrdersService.getOrders();
-    const sortedOrders = clientOrdersData.sort((a, b) => parseInt(a.OrderCode.match(/(\d+)/)[0]) - parseInt(b.OrderCode.match(/(\d+)/)[0]));
+    const sortedOrders = clientOrdersData.sort((a, b) => parseInt(b.OrderCode.match(/(\d+)/)[0]) - parseInt(a.OrderCode.match(/(\d+)/)[0]));
     const productsHash: { [key: string]: Product } = {};
     for(const order of sortedOrders) {
       for(const product of order.Products) {

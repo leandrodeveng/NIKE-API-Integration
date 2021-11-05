@@ -17,11 +17,11 @@ test('Should return last 5 items', async () => {
     count: 3,
     products: [
       {
-        ProductCode: 'CW9300-808',
-        Description: 'BOLSA W NSW REVEL CROSSBODY',
-        Size: 'UNICO',
+        ProductCode: 'BV4122-010',
+        Description: 'BLUSAO W NSW ESSNTL HOODIE FZ FLC',
+        Size: 'P',
         Quantity: 2,
-        Price: 71.99,
+        Price: 197.99,
       },
       {
         ProductCode: 'CU1321-010',
@@ -31,11 +31,11 @@ test('Should return last 5 items', async () => {
         Price: 83.99,
       },
       {
-        ProductCode: 'BV4122-010',
-        Description: 'BLUSAO W NSW ESSNTL HOODIE FZ FLC',
-        Size: 'P',
+        ProductCode: 'CW9300-808',
+        Description: 'BOLSA W NSW REVEL CROSSBODY',
+        Size: 'UNICO',
         Quantity: 2,
-        Price: 197.99,
+        Price: 71.99,
       }
     ],
   });
