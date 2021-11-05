@@ -19,13 +19,11 @@ export class GetProducts {
         productsHash[key] ? 
           productsHash[key].Quantity ++ :
           productsHash[key] = product
-
-        if(Object.keys(productsHash).length === 5) break 
       }
     }
     return new ProductsOutputData({
-      count: 3,
-      products: Object.values(productsHash),
+      count: Object.values(productsHash).length,
+      products: Object.values(productsHash).slice(0,4),
     });
   }
 }
