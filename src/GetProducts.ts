@@ -15,9 +15,10 @@ export class GetProducts {
     const productsHash: { [key: string]: Product } = {};
     for(const order of sortedOrders) {
       for(const product of order.Products) {
-        productsHash[product.ProductCode] ? 
-          productsHash[product.ProductCode].Quantity ++ :
-          productsHash[product.ProductCode] = product
+        const key = order.OrderCode + product.ProductCode;
+        productsHash[key] ? 
+          productsHash[key].Quantity ++ :
+          productsHash[key] = product
 
         if(Object.keys(productsHash).length === 5) break 
       }
