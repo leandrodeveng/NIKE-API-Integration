@@ -1,10 +1,10 @@
 import { HttpService } from '@nestjs/axios';
 import { Inject, InternalServerErrorException } from '@nestjs/common';
-import { lastValueFrom } from 'rxjs';
+import { lastValueFrom, Observable } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-import { ClientOrdersService } from './clientOrders.service';
+import { ClientOrdersService } from './orders.service';
 import { Cpf } from '../Client/Cpf';
-import { Order } from './Order';
+import { Order } from './Interface/Order';
 
 interface orderRequestedDataFormat {
 	OrderCount: number;
@@ -21,7 +21,7 @@ export class ClientOrdersHttpService implements ClientOrdersService {
 	) {}
 
 	async getOrders(cpf: Cpf): Promise<Order[]> {
-		let orders;
+		let orders: Observable<Order[]>;
 		orders = this.httpService
 			.get<orderRequestedDataFormat>(`${this.ibotApi}Order/cpf?=&cpf=${cpf.getCpf()}`, {
 				headers: { 'Content-Type': 'application/json' },

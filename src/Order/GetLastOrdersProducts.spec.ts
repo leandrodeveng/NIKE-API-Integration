@@ -1,6 +1,6 @@
-import { ClientOrdersMemoryService } from './clientOrdersMemory.service';
-import { GetProducts } from './GetProducts';
-import { ClientOrdersService } from './clientOrders.service';
+import { ClientOrdersMemoryService } from './ordersMemory.service';
+import { GetProducts } from './GetLastOrdersProducts';
+import { ClientOrdersService } from './orders.service';
 import { ListProductsOutputData } from '../Product/ListProductOutputData';
 import { Cpf } from '../Client/Cpf';
 import { ProductOutputData } from '../Product/ProductOutputData';

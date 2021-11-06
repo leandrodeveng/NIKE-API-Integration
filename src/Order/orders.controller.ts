@@ -1,8 +1,8 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { ClientOrdersService } from './clientOrders.service';
+import { ClientOrdersService } from './orders.service';
 import { Cpf } from '../Client/Cpf';
-import { GetProducts } from './GetProducts';
+import { GetProducts } from './GetLastOrdersProducts';
 import { ListProductsOutputData } from 'src/Product/ListProductOutputData';
 
 @Controller('orders')
@@ -16,7 +16,7 @@ export class ClientOrderController {
 	@ApiResponse({ status: 400, description: 'Something went wrong with the CPF sended'})
 	@ApiResponse({ status: 500, description: 'Internal server error. Please contact the support'})
 	@ApiOperation({ description: 'Should return the last 5 products of client orders and the count' })
-	async findProducts(
+	async findLastProducts(
 		@Param('cpf') cpfIntupData: string,
 	): Promise<ListProductsOutputData> {
 		const cpf = new Cpf(cpfIntupData);

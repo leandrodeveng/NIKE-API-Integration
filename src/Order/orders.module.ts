@@ -1,8 +1,8 @@
-import { ClientOrdersHttpService } from './clientOrdersHttp.service';
+import { ClientOrdersHttpService } from './ordersHttp.service';
 import { HttpModule, HttpService } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
-import { ClientOrderController } from './clientOrders.controller';
-import { ClientOrdersService } from './clientOrders.service';
+import { ClientOrderController } from './orders.controller';
+import { ClientOrdersService } from './orders.service';
 
 @Module({
 	imports: [HttpModule],

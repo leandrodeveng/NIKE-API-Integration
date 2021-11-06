@@ -1,4 +1,4 @@
-import { ClientOrdersService } from './clientOrders.service';
+import { ClientOrdersService } from './orders.service';
 import { Cpf } from '../Client/Cpf';
 import { ListProductsOutputData } from '../Product/ListProductOutputData';
 import { ProductOutputData } from '../Product/ProductOutputData';

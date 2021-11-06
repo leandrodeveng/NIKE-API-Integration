@@ -1,4 +1,4 @@
-import { Product } from '../Product/Product';
+import { Product } from '../../Product/Interface/Product';
 
 export interface Order {
 	OrderCode: string;

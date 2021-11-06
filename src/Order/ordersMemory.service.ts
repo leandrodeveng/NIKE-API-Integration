@@ -1,5 +1,5 @@
-import { ClientOrdersService } from './clientOrders.service';
-import { Order } from './Order';
+import { ClientOrdersService } from './orders.service';
+import { Order } from './Interface/Order';
 
 export class ClientOrdersMemoryService implements ClientOrdersService {
 	orders: { OrderCount: number; Orders: Order[] };
