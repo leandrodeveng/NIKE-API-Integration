@@ -8,19 +8,7 @@ import { Order } from './Order';
 
 interface orderRequestedDataFormat {
 	OrderCount: number;
-	Orders: {
-		OrderCode: string;
-		OrderStatus: string;
-		PaymentCondition: string;
-		isRefundable: false;
-		Products: {
-			ProductCode: string;
-			Description: string;
-			Size: string;
-			Quantity: string;
-			Price: number;
-		}[];
-	}[];
+	Orders: Order[];
 }
 
 export class ClientOrdersHttpService implements ClientOrdersService {
@@ -36,7 +24,7 @@ export class ClientOrdersHttpService implements ClientOrdersService {
 		let orders;
 		try {
 			orders = this.httpService
-				.get(`${this.ibotApi}Order/cpf?=&cpf=${cpf.getCpf()}`, {
+				.get<orderRequestedDataFormat>(`${this.ibotApi}Order/cpf?=&cpf=${cpf.getCpf()}`, {
 					headers: { 'Content-Type': 'application/json' },
 				})
 				.pipe(map((resp) => resp.data.Orders));

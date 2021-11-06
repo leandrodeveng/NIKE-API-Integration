@@ -1,3 +1,5 @@
+import { BadRequestException } from "@nestjs/common";
+
 const CPF_VALID_LENGTH = 11;
 const FACTOR_FIRST_DIGIT = 10;
 const FACTOR_SECOND_DIGIT = 11;
@@ -10,8 +12,8 @@ export class Cpf {
 	constructor(cpf: string) {
 		const cpfDigits = this.extractDigits(cpf);
 		if (this.isInvalidLength(cpfDigits))
-			throw new Error('Invalid CPF length');
-		if (this.isBlocked(cpfDigits)) throw new Error('Invalid CPF digits');
+			throw new BadRequestException('Invalid CPF length');
+		if (this.isBlocked(cpfDigits)) throw new BadRequestException('Invalid CPF digits');
 		const firstDigit = this.calculateDigit(
 			cpfDigits,
 			FACTOR_FIRST_DIGIT,
@@ -23,7 +25,7 @@ export class Cpf {
 			MAX_DIGITS_SECOND,
 		);
 		if (!this.isCheckDigitValid(cpfDigits, firstDigit, secondDigit))
-			throw new Error('Invalid check digits');
+			throw new BadRequestException('Invalid check digits');
 		this.cpfValue = cpf;
 	}
 
