@@ -24,17 +24,18 @@ interface orderRequestedDataFormat {
 
 export class ClientOrdersHttpService implements ClientOrdersService {
   orders: { OrderCount: number; Orders: Order[] };
+  ibotApi: string = 'https://ibot.ifcdns.com.br:7790/api/';
 
   constructor(
     @Inject(HttpService)
     private readonly httpService: HttpService
     ) {}
 
-  async getOrders(): Promise<Order[]> {
+  async getOrders(cpf: string): Promise<Order[]> {
     let orders;
     try {
       orders = this.httpService.get(
-        'https://ibot.ifcdns.com.br:7790/api/Order/cpf?=&cpf=464.972.498-85',
+        `${this.ibotApi}Order/cpf?=&cpf=${cpf}`,
         {
             headers: { 'Content-Type': 'application/json' }
         }
