@@ -38,3 +38,9 @@ test('Should not return more than 5 items', async () => {
 	const products = await getProducts.execute(cpf);
 	expect(products.products.length).toBeLessThanOrEqual(5);
 });
+
+test('Should return correct count of products', async () => {
+	const cpf = new Cpf('464.972.498-85');
+	const products = await getProducts.execute(cpf);
+	expect(products.count).toBe(6);
+});
