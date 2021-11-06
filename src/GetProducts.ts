@@ -1,6 +1,5 @@
 import { ClientOrdersService } from './clientOrders.service';
 import { Cpf } from './Cpf';
-import { Product } from './Product';
 import { ListProductsOutputData } from './ListProductOutputData';
 import { ProductOutputData } from './ProductOutputData';
 
@@ -13,13 +12,13 @@ export class GetProducts {
 
 	async execute(cpf: Cpf): Promise<ListProductsOutputData> {
 		const clientOrdersData = await this.clientOrdersService.getOrders(cpf);
-		const sortedOrders = clientOrdersData.sort(
-			(a, b) =>
-				parseInt(b.OrderCode.match(/(\d+)/)[0]) -
-				parseInt(a.OrderCode.match(/(\d+)/)[0]),
+		const decrescentOrders = clientOrdersData.sort(
+			(firstOrder, secondOrder) =>
+				this.extractOrderSequence(secondOrder.OrderCode) -
+				this.extractOrderSequence(firstOrder.OrderCode)
 		);
 		const productsHash: { [key: string]: ProductOutputData } = {};
-		for (const order of sortedOrders) {
+		for (const order of decrescentOrders) {
 			for (const product of order.Products) {
 				const key = `${order.OrderCode}@${product.ProductCode}`;
 				productsHash[key]
@@ -38,5 +37,9 @@ export class GetProducts {
 			count: Object.values(productsHash).length,
 			products: Object.values(productsHash).slice(0, 5),
 		});
+	}
+
+	private extractOrderSequence(orderCode: string): number {
+		return parseInt(orderCode.match(/(\d+)/)[0]);
 	}
 }

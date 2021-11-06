@@ -14,8 +14,7 @@ export class ClientOrderController {
 	async findProducts(
 		@Param('cpf') cpfIntupData: string,
 	): Promise<ListProductsOutputData> {
-		const getProducts = new GetProducts(this.clientOrdersService);
 		const cpf = new Cpf(cpfIntupData);
-		return await getProducts.execute(cpf);
+		return await new GetProducts(this.clientOrdersService).execute(cpf);
 	}
 }
