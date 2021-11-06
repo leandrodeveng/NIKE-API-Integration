@@ -16,12 +16,12 @@ curl --request GET \
 ```
 
 ## Running
-1º Clonar repositório
+1º Clonar repositório </br>
 2º Rodar o comando 
 ```console
 docker-compose up --build 
 ```
-para buildar a imagem e rodar com o compose (Expondo API na porta 3000)
+para buildar a imagem e rodar com o compose (Expondo API na porta 3000)</br>
 3º A documentação do swagger estará disponível em http://localhost:3000/api/
 
 ## Análise da estrutura dos dados retornados:
