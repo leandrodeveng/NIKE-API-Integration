@@ -36,6 +36,7 @@ Precebi que existem casos de repetição de produtos e pedidos na estrutura reto
 
 ## Repetição de Produtos em pedidos:
 Existem pedidos com repetição de produtos(baseando-se que a unicidade do produto é dada pelo código do mesmo), por exemplo:
+```json
 {
    "OrderCode":"WEB-397983570",
    "OrderStatus":"ENTREGUE",
@@ -58,11 +59,13 @@ Existem pedidos com repetição de produtos(baseando-se que a unicidade do produ
       }
     ]
 }
+```
 Observando o pedido anterior, nota-se que o pedido "WEB-397983570" contém 2 produtos com exatamente as mesmas características.
 O tratamento adotado para esses casos foi de agrupar o produto, ou seja, considerar apenas 1 e incrementar o atributo "Quantity" do mesmo. No caso em que esses produtos fossem os últimos, retornaria o produto de código "BV4122-010" apenas uma vez, porém retornando também o atributo "Quantity" com o somatório da quantidade de produtos repetidos do mesmo.
 
 ## Repetição de Pedidos:
 Além da repetição de produtos dentro de um pedido, notei que existiam pedidos com duplicatas(baseando-se que a unicidade do pedido é dada pelo código do mesmo), por exemplo:
+```json
 [
    {
       "OrderCode":"WEB-108698620",
@@ -137,5 +140,6 @@ Além da repetição de produtos dentro de um pedido, notei que existiam pedidos
       ]
    }
 ]
+```
 Observando os pedidos anteriores, nota-se que ambos são identicos, inclusive contém os mesmos ítens.
 O tratamento adotado para esses casos também foi também seguir a ideia de agrupar os casos íguais, ou seja, tomando o exemplo anterior, considerar que existe somente um pedido de código "WEB-108698620", porém agrupar os ítens do mesmo, seguindo a lógica da repetição de ítens citada anteriormente para realizar esse agrupamento.
