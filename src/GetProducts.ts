@@ -1,4 +1,5 @@
 import { ClientOrdersService } from './clientOrders.service';
+import { Cpf } from './Cpf';
 import { Product } from './Product';
 import { ProductsOutputData } from './ProductsOutputData';
 
@@ -9,7 +10,7 @@ export class GetProducts {
     this.clientOrdersService = clientOrdersService;
   }
 
-  async execute(cpf: string): Promise<ProductsOutputData> {
+  async execute(cpf: Cpf): Promise<ProductsOutputData> {
     const clientOrdersData = await this.clientOrdersService.getOrders(cpf);
     const sortedOrders = clientOrdersData.sort((a, b) => parseInt(b.OrderCode.match(/(\d+)/)[0]) - parseInt(a.OrderCode.match(/(\d+)/)[0]));
     const productsHash: { [key: string]: { orderCode: string, ProductCode: string, Description: string, Price: number, Size: string, Quantity: number } } = {};

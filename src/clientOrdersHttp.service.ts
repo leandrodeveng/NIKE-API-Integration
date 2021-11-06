@@ -3,6 +3,7 @@ import { Inject } from '@nestjs/common';
 import { lastValueFrom } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ClientOrdersService } from './clientOrders.service';
+import { Cpf } from './Cpf';
 import { Order } from './Order';
 
 interface orderRequestedDataFormat {
@@ -31,11 +32,11 @@ export class ClientOrdersHttpService implements ClientOrdersService {
     private readonly httpService: HttpService
     ) {}
 
-  async getOrders(cpf: string): Promise<Order[]> {
+  async getOrders(cpf: Cpf): Promise<Order[]> {
     let orders;
     try {
       orders = this.httpService.get(
-        `${this.ibotApi}Order/cpf?=&cpf=${cpf}`,
+        `${this.ibotApi}Order/cpf?=&cpf=${cpf.getCpf()}`,
         {
             headers: { 'Content-Type': 'application/json' }
         }
