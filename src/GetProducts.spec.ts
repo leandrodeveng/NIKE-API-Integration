@@ -36,7 +36,7 @@ test('Should return last 5 items', async () => {
         Size: 'UNICO',
         Quantity: 2,
         Price: 71.99,
-      }
+      },
     ],
   });
   expect(products).toStrictEqual(productsSample);

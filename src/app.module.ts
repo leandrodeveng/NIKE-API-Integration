@@ -4,6 +4,6 @@ import { ClientOrdersModule } from './clientOrders.module';
 @Module({
   imports: [ClientOrdersModule],
   controllers: [],
-  providers: []
+  providers: [],
 })
 export class AppModule {}

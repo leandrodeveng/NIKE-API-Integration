@@ -8,14 +8,14 @@ import { ProductsOutputData } from './ProductsOutputData';
 @Controller('orders')
 @ApiTags('Orders')
 export class ClientOrderController {
-    constructor(private readonly clientOrdersService: ClientOrdersService) {}
+  constructor(private readonly clientOrdersService: ClientOrdersService) {}
 
   @Get(':cpf')
   async findProducts(
-    @Param('cpf') cpfIntupData: string
+    @Param('cpf') cpfIntupData: string,
   ): Promise<ProductsOutputData> {
     const getProducts = new GetProducts(this.clientOrdersService);
     const cpf = new Cpf(cpfIntupData);
-    return await getProducts.execute(cpf)
+    return await getProducts.execute(cpf);
   }
 }

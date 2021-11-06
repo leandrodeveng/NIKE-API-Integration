@@ -10,7 +10,8 @@ import { ClientOrdersService } from './clientOrders.service';
   providers: [
     {
       provide: ClientOrdersService,
-      useClass: ClientOrdersHttpService
-    }],
+      useClass: ClientOrdersHttpService,
+    },
+  ],
 })
 export class ClientOrdersModule {}
