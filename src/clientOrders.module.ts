@@ -5,13 +5,13 @@ import { ClientOrderController } from './clientOrders.controller';
 import { ClientOrdersService } from './clientOrders.service';
 
 @Module({
-  imports: [HttpModule],
-  controllers: [ClientOrderController],
-  providers: [
-    {
-      provide: ClientOrdersService,
-      useClass: ClientOrdersHttpService,
-    },
-  ],
+	imports: [HttpModule],
+	controllers: [ClientOrderController],
+	providers: [
+		{
+			provide: ClientOrdersService,
+			useClass: ClientOrdersHttpService,
+		},
+	],
 })
 export class ClientOrdersModule {}

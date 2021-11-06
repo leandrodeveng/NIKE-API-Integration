@@ -1,7 +1,7 @@
 export interface Product {
-  ProductCode: string;
-  Description: string;
-  Size: string;
-  Quantity: string;
-  Price: number;
+	ProductCode: string;
+	Description: string;
+	Size: string;
+	Quantity: string;
+	Price: number;
 }
