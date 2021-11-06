@@ -25,7 +25,7 @@ test('Should return last 5 items', async () => {
 				size: 'P',
 				quantity: 2,
 				price: 197.99,
-				orderCode: 'WEB-397983570'
+				orderCode: 'WEB-397983570',
 			}),
 			new ProductOutputData({
 				productCode: 'CU1321-010',
@@ -33,7 +33,7 @@ test('Should return last 5 items', async () => {
 				size: 'M',
 				quantity: 2,
 				price: 83.99,
-				orderCode: 'WEB-349932750'
+				orderCode: 'WEB-349932750',
 			}),
 			new ProductOutputData({
 				productCode: 'CW9300-808',
@@ -41,7 +41,7 @@ test('Should return last 5 items', async () => {
 				size: 'UNICO',
 				quantity: 2,
 				price: 71.99,
-				orderCode: 'WEB-349925370'
+				orderCode: 'WEB-349925370',
 			}),
 		],
 	});
