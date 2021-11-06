@@ -1,9 +1,9 @@
 import { ClientOrdersMemoryService } from './clientOrdersMemory.service';
 import { GetProducts } from './GetProducts';
 import { ClientOrdersService } from './clientOrders.service';
-import { ListProductsOutputData } from './ListProductOutputData';
-import { Cpf } from './Cpf';
-import { ProductOutputData } from './ProductOutputData';
+import { ListProductsOutputData } from '../Product/ListProductOutputData';
+import { Cpf } from '../Client/Cpf';
+import { ProductOutputData } from '../Product/ProductOutputData';
 
 let clientOrdersService: ClientOrdersService;
 let getProducts: GetProducts;

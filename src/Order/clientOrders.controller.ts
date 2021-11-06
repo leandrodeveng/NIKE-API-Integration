@@ -1,9 +1,9 @@
 import { Controller, Get, Param } from '@nestjs/common';
-import { ApiHeader, ApiOperation, ApiParam, ApiProperty, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ClientOrdersService } from './clientOrders.service';
-import { Cpf } from './Cpf';
+import { Cpf } from '../Client/Cpf';
 import { GetProducts } from './GetProducts';
-import { ListProductsOutputData } from './ListProductOutputData';
+import { ListProductsOutputData } from 'src/Product/ListProductOutputData';
 
 @Controller('orders')
 @ApiTags('Orders')

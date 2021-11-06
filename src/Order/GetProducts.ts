@@ -1,7 +1,7 @@
 import { ClientOrdersService } from './clientOrders.service';
-import { Cpf } from './Cpf';
-import { ListProductsOutputData } from './ListProductOutputData';
-import { ProductOutputData } from './ProductOutputData';
+import { Cpf } from '../Client/Cpf';
+import { ListProductsOutputData } from '../Product/ListProductOutputData';
+import { ProductOutputData } from '../Product/ProductOutputData';
 
 export class GetProducts {
 	private clientOrdersService: ClientOrdersService;

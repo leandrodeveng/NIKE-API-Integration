@@ -1,4 +1,4 @@
-import { Cpf } from './Cpf';
+import { Cpf } from '../Client/Cpf';
 import { Order } from './Order';
 
 export abstract class ClientOrdersService {

@@ -3,7 +3,7 @@ import { Inject, InternalServerErrorException } from '@nestjs/common';
 import { lastValueFrom } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { ClientOrdersService } from './clientOrders.service';
-import { Cpf } from './Cpf';
+import { Cpf } from '../Client/Cpf';
 import { Order } from './Order';
 
 interface orderRequestedDataFormat {

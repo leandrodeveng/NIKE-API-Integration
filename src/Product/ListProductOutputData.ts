@@ -1,4 +1,4 @@
-import { ProductOutputData } from './ProductOutputData';
+import { ProductOutputData } from "./ProductOutputData";
 
 export class ListProductsOutputData {
 	count: number;
