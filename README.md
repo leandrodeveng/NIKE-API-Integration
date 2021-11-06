@@ -15,6 +15,15 @@ curl --request GET \
   --header 'Content-Type: application/json'
 ```
 
+## Running
+1º Clonar repositório
+2º Rodar o comando 
+```console
+docker-compose up --build 
+```
+para buildar a imagem e rodar com o compose (Expondo API na porta 3000)
+3º A documentação do swagger estará disponível em http://localhost:3000/api/
+
 ## Análise da estrutura dos dados retornados:
 Inicialmente realizei uma análise dos dados retornados, para entender a estrutura do Json. Algumas peculiaridades foram encontradas e segui uma linha de raciocínio lógica para processar os dados e resolver o problema proposto. 
 Obs: Nesse teste surgiram algumas dúvidas, porém resolvi não recorrer a ajuda, para que pudessem avaliar minha linha de raciocínio e decidirem se está de acordo com o que procuram para a posição. Mas reforço que, num cenário realista de trabalho, recorreria a equipe, e se necessário a terceiros, para sanar dúvidas e buscar a resolução mais adequada para o problema.
