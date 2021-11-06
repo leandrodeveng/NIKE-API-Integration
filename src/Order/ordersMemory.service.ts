@@ -20,7 +20,7 @@ export class ClientOrdersMemoryService implements ClientOrdersService {
 							Size: 'M',
 							Quantity: '1',
 							Price: 83.99,
-						}
+						},
 					],
 				},
 				{

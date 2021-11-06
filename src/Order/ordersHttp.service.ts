@@ -23,12 +23,19 @@ export class ClientOrdersHttpService implements ClientOrdersService {
 	async getOrders(cpf: Cpf): Promise<Order[]> {
 		let orders: Observable<Order[]>;
 		orders = this.httpService
-			.get<orderRequestedDataFormat>(`${this.ibotApi}Order/cpf?=&cpf=${cpf.getCpf()}`, {
-				headers: { 'Content-Type': 'application/json' },
-			})
+			.get<orderRequestedDataFormat>(
+				`${this.ibotApi}Order/cpf?=&cpf=${cpf.getCpf()}`,
+				{
+					headers: { 'Content-Type': 'application/json' },
+				},
+			)
 			.pipe(
-				catchError(error => { throw new InternalServerErrorException('Fail on communication with nike API') }),
-				map((resp) => resp.data.Orders)
+				catchError((error) => {
+					throw new InternalServerErrorException(
+						'Fail on communication with nike API',
+					);
+				}),
+				map((resp) => resp.data.Orders),
 			);
 		return await lastValueFrom(orders);
 	}

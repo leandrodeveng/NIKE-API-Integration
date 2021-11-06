@@ -23,13 +23,14 @@ test('Should return the last 5 items', async () => {
 		{ orderCode: 'WEB-222222222', productCode: 'I4', quantity: 1 },
 		{ orderCode: 'WEB-111111111A', productCode: 'I1', quantity: 3 },
 	];
-	for(const expectedProduct of expectedProducts) {
-		const product = products.products.find(product => 
-			product.orderCode === expectedProduct.orderCode &&
-			product.productCode === expectedProduct.productCode &&
-			product.quantity === expectedProduct.quantity
+	for (const expectedProduct of expectedProducts) {
+		const product = products.products.find(
+			(product) =>
+				product.orderCode === expectedProduct.orderCode &&
+				product.productCode === expectedProduct.productCode &&
+				product.quantity === expectedProduct.quantity,
 		);
-		expect(product).not.toBeUndefined()
+		expect(product).not.toBeUndefined();
 	}
 });
 

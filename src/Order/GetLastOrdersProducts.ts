@@ -15,7 +15,7 @@ export class GetProducts {
 		const decrescentOrders = clientOrdersData.sort(
 			(firstOrder, secondOrder) =>
 				this.extractOrderSequence(secondOrder.OrderCode) -
-				this.extractOrderSequence(firstOrder.OrderCode)
+				this.extractOrderSequence(firstOrder.OrderCode),
 		);
 		const productsHash: { [key: string]: ProductOutputData } = {};
 		for (const order of decrescentOrders) {
