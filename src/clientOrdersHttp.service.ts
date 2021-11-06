@@ -1,7 +1,7 @@
 import { HttpService } from '@nestjs/axios';
-import { Inject } from '@nestjs/common';
+import { Inject, InternalServerErrorException } from '@nestjs/common';
 import { lastValueFrom } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 import { ClientOrdersService } from './clientOrders.service';
 import { Cpf } from './Cpf';
 import { Order } from './Order';
@@ -22,15 +22,14 @@ export class ClientOrdersHttpService implements ClientOrdersService {
 
 	async getOrders(cpf: Cpf): Promise<Order[]> {
 		let orders;
-		try {
-			orders = this.httpService
-				.get<orderRequestedDataFormat>(`${this.ibotApi}Order/cpf?=&cpf=${cpf.getCpf()}`, {
-					headers: { 'Content-Type': 'application/json' },
-				})
-				.pipe(map((resp) => resp.data.Orders));
-		} catch (error) {
-			throw new Error('External call error');
-		}
+		orders = this.httpService
+			.get<orderRequestedDataFormat>(`${this.ibotApi}Order/cpf?=&cpf=${cpf.getCpf()}`, {
+				headers: { 'Content-Type': 'application/json' },
+			})
+			.pipe(
+				catchError(error => { throw new InternalServerErrorException('Fail on communication with nike API') }),
+				map((resp) => resp.data.Orders)
+			);
 		return await lastValueFrom(orders);
 	}
 }
