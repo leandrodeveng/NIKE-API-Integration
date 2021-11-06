@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # NIKE-API-Integration
 
 <center> A plataforma de chatbot possui limitação de caracteres na recepção de payloads de api's externas, dessa forma, para o chatbot nike, quando o cliente possui muitos pedidos, não é possível autentica-lo
@@ -21,78 +20,122 @@ curl --request GET \
   --header 'Content-Type: application/json'
 ```
 <br>
-=======
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
-</p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Análise da estrutura dos dados retornados:
+Inicialmente realizei uma análise dos dados retornados, para entender a estrutura do Json. Algumas peculiaridades foram encontradas e segui uma linha de raciocínio lógica para processar os dados e resolver o problema proposto. 
+Obs: Nesse teste surgiram algumas dúvidas, porém resolvi não recorrer a ajuda, para que pudessem avaliar minha linha de raciocínio e decidirem se está de acordo com o que procuram para a posição. Mas reforço que, num cenário realista de trabalho, recorreria a equipe, e se necessário a terceiros, para sanar dúvidas e buscar a resolução mais adequada para o problema.
 
-## Description
+## Ordenação para pegar últimos produtos:
+Na estrutura retornada não há explicitamente nenhum atributo que indique o período de realização dos pedidos, para que seja possível pegar os últimos pedidos, que consequentemente terão os últimos produtos. Poderia considerar que os pedidos estão ordenados de maneira ascendente, porém é uma abordagem incerta. 
+Analisando os dados percebi que o atributo "OrderCode" é o atributo que melhor indica a ordem dos pedidos. Com base na análise dos dados inferi que o "OrderCode" tem uma estrutura do tipo 
+`WEB-${sequence}caracter-especial`, onde a sequence é a ordem de pedidos realizados. Com base nisso utilizei essa informação para ordenar os pedidos, para que fosse possível pegar os últimos 5 produtos do cliente.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Casos de repetição
+Precebi que existem casos de repetição de produtos e pedidos na estrutura retornada. Uma ideia para esse caso seria de descartar repetições existentes, porém achei mais adequado seguir outra abordagem. A ideia para resolução foi realizar agrupamentos baseado nos códigos do pedido e do produto. Abaixo detalharei mais sobre os casos e a solução.
 
-## Installation
+## Repetição de Produtos em pedidos:
+Existem pedidos com repetição de produtos(baseando-se que a unicidade do produto é dada pelo código do mesmo), por exemplo:
+{
+   "OrderCode":"WEB-397983570",
+   "OrderStatus":"ENTREGUE",
+   "PaymentCondition":"MASTERCARD CREDITO/1P",
+   "isRefundable":true,
+   "Products":[
+      {
+         "ProductCode":"BV4122-010",
+         "Description":"BLUSAO W NSW ESSNTL HOODIE FZ FLC",
+         "Size":"P",
+         "Quantity":"1",
+         "Price":197.99
+      },
+      {
+         "ProductCode":"BV4122-010",
+         "Description":"BLUSAO W NSW ESSNTL HOODIE FZ FLC",
+         "Size":"P",
+         "Quantity":"1",
+         "Price":197.99
+      }
+    ]
+}
+Observando o pedido anterior, nota-se que o pedido "WEB-397983570" contém 2 produtos com exatamente as mesmas características.
+O tratamento adotado para esses casos foi de agrupar o produto, ou seja, considerar apenas 1 e incrementar o atributo "Quantity" do mesmo. No caso em que esses produtos fossem os últimos, retornaria o produto de código "BV4122-010" apenas uma vez, porém retornando também o atributo "Quantity" com o somatório da quantidade de produtos repetidos do mesmo.
 
-```bash
-$ npm install
-```
-
-## Running the app
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
-```
-
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
->>>>>>> master
+## Repetição de Pedidos:
+Além da repetição de produtos dentro de um pedido, notei que existiam pedidos com duplicatas(baseando-se que a unicidade do pedido é dada pelo código do mesmo), por exemplo:
+[
+   {
+      "OrderCode":"WEB-108698620",
+      "OrderStatus":"ENTREGUE",
+      "PaymentCondition":"MASTERCARD CREDITO/1P",
+      "isRefundable":true,
+      "Products":[
+         {
+            "ProductCode":"AQ3951-258",
+            "Description":"CAMISETA MANGA CURTA M NSW TEE CLTR ACG",
+            "Size":"P",
+            "Quantity":"1",
+            "Price":29.95
+         },
+         {
+            "ProductCode":"AQ3951-258",
+            "Description":"CAMISETA MANGA CURTA M NSW TEE CLTR ACG",
+            "Size":"P",
+            "Quantity":"1",
+            "Price":29.95
+         },
+         {
+            "ProductCode":"AQ3951-010",
+            "Description":"CAMISETA MANGA CURTA M NSW TEE CLTR ACG",
+            "Size":"P",
+            "Quantity":"1",
+            "Price":29.95
+         },
+         {
+            "ProductCode":"AQ3951-010",
+            "Description":"CAMISETA MANGA CURTA M NSW TEE CLTR ACG",
+            "Size":"P",
+            "Quantity":"1",
+            "Price":29.95
+         }
+      ]
+   },
+   {
+      "OrderCode":"WEB-108698620",
+      "OrderStatus":"ENTREGUE",
+      "PaymentCondition":"MASTERCARD CREDITO/1P",
+      "isRefundable":true,
+      "Products":[
+         {
+            "ProductCode":"AQ3951-010",
+            "Description":"CAMISETA MANGA CURTA M NSW TEE CLTR ACG",
+            "Size":"P",
+            "Quantity":"1",
+            "Price":29.95
+         },
+         {
+            "ProductCode":"AQ3951-010",
+            "Description":"CAMISETA MANGA CURTA M NSW TEE CLTR ACG",
+            "Size":"P",
+            "Quantity":"1",
+            "Price":29.95
+         },
+         {
+            "ProductCode":"AQ3951-258",
+            "Description":"CAMISETA MANGA CURTA M NSW TEE CLTR ACG",
+            "Size":"P",
+            "Quantity":"1",
+            "Price":29.95
+         },
+         {
+            "ProductCode":"AQ3951-258",
+            "Description":"CAMISETA MANGA CURTA M NSW TEE CLTR ACG",
+            "Size":"P",
+            "Quantity":"1",
+            "Price":29.95
+         }
+      ]
+   }
+]
+Observando os pedidos anteriores, nota-se que ambos são identicos, inclusive contém os mesmos ítens.
+O tratamento adotado para esses casos também foi também seguir a ideia de agrupar os casos íguais, ou seja, tomando o exemplo anterior, considerar que existe somente um pedido de código "WEB-108698620", porém agrupar os ítens do mesmo, seguindo a lógica da repetição de ítens citada anteriormente para realizar esse agrupamento.
