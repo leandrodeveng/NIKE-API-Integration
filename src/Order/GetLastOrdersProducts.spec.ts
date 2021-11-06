@@ -13,37 +13,28 @@ beforeEach(() => {
 	getProducts = new GetProducts(clientOrdersService);
 });
 
-test('Should return last 5 items', async () => {
+test('Should return the last 5 items', async () => {
 	const cpf = new Cpf('464.972.498-85');
 	const products = await getProducts.execute(cpf);
-	const productsSample = new ListProductsOutputData({
-		count: 3,
-		products: [
-			new ProductOutputData({
-				productCode: 'BV4122-010',
-				description: 'BLUSAO W NSW ESSNTL HOODIE FZ FLC',
-				size: 'P',
-				quantity: 2,
-				price: 197.99,
-				orderCode: 'WEB-397983570',
-			}),
-			new ProductOutputData({
-				productCode: 'CU1321-010',
-				description: 'CAMISA 4 CORINTHIANS FEMININO',
-				size: 'M',
-				quantity: 2,
-				price: 83.99,
-				orderCode: 'WEB-349932750',
-			}),
-			new ProductOutputData({
-				productCode: 'CW9300-808',
-				description: 'BOLSA W NSW REVEL CROSSBODY',
-				size: 'UNICO',
-				quantity: 2,
-				price: 71.99,
-				orderCode: 'WEB-349925370',
-			}),
-		],
-	});
-	expect(products).toStrictEqual(productsSample);
+	const expectedProducts = [
+		{ orderCode: 'WEB-222222222', productCode: 'I1', quantity: 2 },
+		{ orderCode: 'WEB-222222222', productCode: 'I2', quantity: 1 },
+		{ orderCode: 'WEB-222222222', productCode: 'I3', quantity: 1 },
+		{ orderCode: 'WEB-222222222', productCode: 'I4', quantity: 1 },
+		{ orderCode: 'WEB-111111111A', productCode: 'I1', quantity: 3 },
+	];
+	for(const expectedProduct of expectedProducts) {
+		const product = products.products.find(product => 
+			product.orderCode === expectedProduct.orderCode &&
+			product.productCode === expectedProduct.productCode &&
+			product.quantity === expectedProduct.quantity
+		);
+		expect(product).not.toBeUndefined()
+	}
+});
+
+test('Should not return more than 5 items', async () => {
+	const cpf = new Cpf('464.972.498-85');
+	const products = await getProducts.execute(cpf);
+	expect(products.products.length).toBeLessThanOrEqual(5);
 });
