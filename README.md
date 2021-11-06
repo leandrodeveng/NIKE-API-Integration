@@ -1,26 +1,19 @@
 # NIKE-API-Integration
 
-<center> A plataforma de chatbot possui limitação de caracteres na recepção de payloads de api's externas, dessa forma, para o chatbot nike, quando o cliente possui muitos pedidos, não é possível autentica-lo
-<br>
-<br>
+A plataforma de chatbot possui limitação de caracteres na recepção de payloads de api's externas, dessa forma, para o chatbot nike, quando o cliente possui muitos pedidos, não é possível autentica-lo
 
 ## Atividade:
 Para conseguirmos ter acesso aos dados de produtos encontrados pela api nike, será necessário criar uma api na qual ela receba o cpf do cliente e retorne o count e os ultimos 5 produtos.
-
-<br>
 
 CPF de teste: 
 464.972.498-85
 
 ## Curl
-
 ```
 curl --request GET \
   --url 'https://ibot.ifcdns.com.br:7790/api/Order/cpf?=&cpf=464.972.498-85' \
   --header 'Content-Type: application/json'
 ```
-<br>
-
 
 ## Análise da estrutura dos dados retornados:
 Inicialmente realizei uma análise dos dados retornados, para entender a estrutura do Json. Algumas peculiaridades foram encontradas e segui uma linha de raciocínio lógica para processar os dados e resolver o problema proposto. 
@@ -29,7 +22,10 @@ Obs: Nesse teste surgiram algumas dúvidas, porém resolvi não recorrer a ajuda
 ## Ordenação para pegar últimos produtos:
 Na estrutura retornada não há explicitamente nenhum atributo que indique o período de realização dos pedidos, para que seja possível pegar os últimos pedidos, que consequentemente terão os últimos produtos. Poderia considerar que os pedidos estão ordenados de maneira ascendente, porém é uma abordagem incerta. 
 Analisando os dados percebi que o atributo "OrderCode" é o atributo que melhor indica a ordem dos pedidos. Com base na análise dos dados inferi que o "OrderCode" tem uma estrutura do tipo 
-`WEB-${sequence}caracter-especial`, onde a sequence é a ordem de pedidos realizados. Com base nisso utilizei essa informação para ordenar os pedidos, para que fosse possível pegar os últimos 5 produtos do cliente.
+```javascript
+`WEB-${sequence}caracter-especial-opcional`
+```
+onde a sequence é a ordem de pedidos realizados. Com base nisso utilizei essa informação para ordenar os pedidos, para que fosse possível pegar os últimos 5 produtos do cliente.
 
 ## Casos de repetição
 Precebi que existem casos de repetição de produtos e pedidos na estrutura retornada. Uma ideia para esse caso seria de descartar repetições existentes, porém achei mais adequado seguir outra abordagem. A ideia para resolução foi realizar agrupamentos baseado nos códigos do pedido e do produto. Abaixo detalharei mais sobre os casos e a solução.
