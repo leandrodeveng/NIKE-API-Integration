@@ -1,10 +1,12 @@
 FROM node:16.13.0-alpine as prod
 ENV NODE_ENV=production
+RUN apk add --no-cache tini
 WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm install --only=production && npm cache clean --force
 COPY . .
 RUN npm install -g @nestjs/cli && nest build
+ENTRYPOINT [ "/sbin/tini", "--" ]
 CMD [ "node", "dist/main" ]
 
 FROM prod as dev
