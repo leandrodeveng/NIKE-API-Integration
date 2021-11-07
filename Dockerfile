@@ -9,7 +9,7 @@ CMD [ "node", "dist/main" ]
 
 FROM prod as dev
 ENV NODE_ENV=development
-RUN npm install --only=development
+RUN npm install
 
 FROM dev as test
 ENV NODE_ENV=test
