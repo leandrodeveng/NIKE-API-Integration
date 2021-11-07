@@ -1,14 +1,14 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { ClientOrdersService } from './orders.service';
+import { OrdersService } from './orders.service';
 import { Cpf } from '../Client/Cpf';
-import { GetProducts } from './GetLastOrdersProducts';
+import { GetLastOrdersProducts } from './GetLastOrdersProducts';
 import { ListProductsOutputData } from 'src/Product/ListProductOutputData';
 
 @Controller('orders')
 @ApiTags('Orders')
-export class ClientOrderController {
-	constructor(private readonly clientOrdersService: ClientOrdersService) {}
+export class OrderController {
+	constructor(private readonly ordersService: OrdersService) {}
 
 	@Get(':cpf/last-products')
 	@ApiParam({
@@ -36,6 +36,6 @@ export class ClientOrderController {
 		@Param('cpf') cpfIntupData: string,
 	): Promise<ListProductsOutputData> {
 		const cpf = new Cpf(cpfIntupData);
-		return await new GetProducts(this.clientOrdersService).execute(cpf);
+		return await new GetLastOrdersProducts(this.ordersService).execute(cpf);
 	}
 }

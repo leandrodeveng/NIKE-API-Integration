@@ -1,16 +1,14 @@
-import { ClientOrdersMemoryService } from './ordersMemory.service';
-import { GetProducts } from './GetLastOrdersProducts';
-import { ClientOrdersService } from './orders.service';
-import { ListProductsOutputData } from '../Product/ListProductOutputData';
+import { OrdersMemoryService } from './ordersMemory.service';
+import { GetLastOrdersProducts } from './GetLastOrdersProducts';
+import { OrdersService } from './orders.service';
 import { Cpf } from '../Client/Cpf';
-import { ProductOutputData } from '../Product/ProductOutputData';
 
-let clientOrdersService: ClientOrdersService;
-let getProducts: GetProducts;
+let clientOrdersService: OrdersService;
+let getProducts: GetLastOrdersProducts;
 
 beforeEach(() => {
-	clientOrdersService = new ClientOrdersMemoryService();
-	getProducts = new GetProducts(clientOrdersService);
+	clientOrdersService = new OrdersMemoryService();
+	getProducts = new GetLastOrdersProducts(clientOrdersService);
 });
 
 test('Should return the last 5 items', async () => {

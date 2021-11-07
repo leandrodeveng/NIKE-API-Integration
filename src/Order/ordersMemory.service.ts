@@ -1,7 +1,7 @@
-import { ClientOrdersService } from './orders.service';
+import { OrdersService } from './orders.service';
 import { Order } from './Interface/Order';
 
-export class ClientOrdersMemoryService implements ClientOrdersService {
+export class OrdersMemoryService implements OrdersService {
 	orders: { OrderCount: number; Orders: Order[] };
 
 	constructor() {

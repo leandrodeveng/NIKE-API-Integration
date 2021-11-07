@@ -2,7 +2,7 @@ import { HttpService } from '@nestjs/axios';
 import { Inject, InternalServerErrorException } from '@nestjs/common';
 import { lastValueFrom, Observable } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-import { ClientOrdersService } from './orders.service';
+import { OrdersService } from './orders.service';
 import { Cpf } from '../Client/Cpf';
 import { Order } from './Interface/Order';
 
@@ -11,7 +11,7 @@ interface orderRequestedDataFormat {
 	Orders: Order[];
 }
 
-export class ClientOrdersHttpService implements ClientOrdersService {
+export class OrdersHttpService implements OrdersService {
 	orders: { OrderCount: number; Orders: Order[] };
 	ibotApi: string = 'https://ibot.ifcdns.com.br:7790/api/';
 

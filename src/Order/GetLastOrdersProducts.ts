@@ -1,29 +1,29 @@
-import { ClientOrdersService } from './orders.service';
+import { OrdersService } from './orders.service';
 import { Cpf } from '../Client/Cpf';
 import { ListProductsOutputData } from '../Product/ListProductOutputData';
 import { ProductOutputData } from '../Product/ProductOutputData';
 
-export class GetProducts {
-	private clientOrdersService: ClientOrdersService;
+export class GetLastOrdersProducts {
+	private ordersService: OrdersService;
 
-	constructor(clientOrdersService: ClientOrdersService) {
-		this.clientOrdersService = clientOrdersService;
+	constructor(ordersService: OrdersService) {
+		this.ordersService = ordersService;
 	}
 
 	async execute(cpf: Cpf): Promise<ListProductsOutputData> {
-		const clientOrdersData = await this.clientOrdersService.getOrders(cpf);
-		const decrescentOrders = clientOrdersData.sort(
+		const ordersData = await this.ordersService.getOrders(cpf);
+		const decrescentOrders = ordersData.sort(
 			(firstOrder, secondOrder) =>
 				this.extractOrderSequence(secondOrder.OrderCode) -
 				this.extractOrderSequence(firstOrder.OrderCode),
 		);
-		const productsHash: { [key: string]: ProductOutputData } = {};
+		const productsObj: { [key: string]: ProductOutputData } = {};
 		for (const order of decrescentOrders) {
 			for (const product of order.Products) {
 				const key = `${order.OrderCode}@${product.ProductCode}`;
-				productsHash[key]
-					? productsHash[key].quantity++
-					: (productsHash[key] = new ProductOutputData({
+				productsObj[key]
+					? productsObj[key].quantity++
+					: (productsObj[key] = new ProductOutputData({
 							orderCode: key.split('@')[0],
 							productCode: product.ProductCode,
 							description: product.Description,
@@ -34,8 +34,8 @@ export class GetProducts {
 			}
 		}
 		return new ListProductsOutputData({
-			count: Object.values(productsHash).length,
-			products: Object.values(productsHash).slice(0, 5),
+			count: Object.values(productsObj).length,
+			products: Object.values(productsObj).slice(0, 5),
 		});
 	}
 
